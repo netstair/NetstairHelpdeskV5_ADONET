@@ -17,9 +17,11 @@ namespace NetstairHelpdeskV5.Models
             
             using (SqlConnection con = new SqlConnection(GetConnectionString()))
             {
-                string sqlQuery = "[dbo].[spGetTicketData] 0";
+
+                string sqlQuery = "spGetTicketData";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@TicketId", SqlDbType.Int)).Value = 0;
 
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
@@ -29,7 +31,7 @@ namespace NetstairHelpdeskV5.Models
                     Ticket ticket = new Ticket();
 
                     ticket.ID = Convert.ToInt32(rdr["ID"]);
-                    ticket.Businees_Name = rdr["businees_name"].ToString();
+                    ticket.Business_name = rdr["businees_name"].ToString();
                     ticket.Telephone = rdr["business_phone"].ToString();
                     ticket.Location = rdr["business_location"].ToString();
                     ticket.Contact_Person = rdr["contact_person"].ToString();
@@ -56,7 +58,7 @@ namespace NetstairHelpdeskV5.Models
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@ID", ticket.ID);
-                cmd.Parameters.AddWithValue("@businessname", ticket.Businees_Name);
+                cmd.Parameters.AddWithValue("@businessname", ticket.Business_name);
                 cmd.Parameters.AddWithValue("@businessphone", ticket.Telephone);
                 cmd.Parameters.AddWithValue("@businesslocation", ticket.Location);
                 cmd.Parameters.AddWithValue("@contactperson", ticket.Contact_Person);
@@ -83,7 +85,7 @@ namespace NetstairHelpdeskV5.Models
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@ID", ticket.ID);
-                cmd.Parameters.AddWithValue("@businessname", ticket.Businees_Name);
+                cmd.Parameters.AddWithValue("@businessname", ticket.Business_name);
                 cmd.Parameters.AddWithValue("@businessphone", ticket.Telephone);
                 cmd.Parameters.AddWithValue("@businesslocation", ticket.Location);
                 cmd.Parameters.AddWithValue("@contactperson", ticket.Contact_Person);
@@ -117,7 +119,7 @@ namespace NetstairHelpdeskV5.Models
                 while (rdr.Read())
                 {
                     ticket.ID = Convert.ToInt32(rdr["ID"]);
-                    ticket.Businees_Name = rdr["businees_name"].ToString();
+                    ticket.Business_name = rdr["businees_name"].ToString();
                     ticket.Telephone = rdr["business_phone"].ToString();
                     ticket.Location = rdr["business_location"].ToString();
                     ticket.Contact_Person = rdr["contact_person"].ToString();
